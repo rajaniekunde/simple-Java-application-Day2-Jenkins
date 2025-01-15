@@ -10,7 +10,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 echo 'Cloning the repository...'
-                git 'https://github.com/rajaniekunde/simple-Java-application.git'
+                git 'https://github.com/rajaniekunde/simple-Java-application-Day2-Jenkins.git'
             }
         }
 
