@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        JAVA_HOME = 'C:\\Program Files\\Java\\jdk-11.0.11' // Update as needed
-        PATH = "${JAVA_HOME}\\bin;${env.PATH}"
-    }
-
     stages {
         stage('Clone Repository') {
             steps {
@@ -13,31 +8,33 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/rajaniekunde/simple-Java-application-Day2-Jenkins.git'
             }
         }
-        
+
         stage('Compile Application') {
             steps {
                 echo 'Compiling the application...'
-                // Compile all .java files in the src directory recursively
-                bat 'javac -d build -sourcepath src src\\main\\java\\**\\*.java'
+                bat '''
+                    if not exist build mkdir build
+                    for /r src\\main\\java %f in (*.java) do javac -d build %f
+                '''
             }
         }
-        
+
         stage('Run Application') {
             steps {
                 echo 'Running the application...'
-                // Run the compiled Java application
-                bat 'java -cp build Main'
+                bat '''
+                    cd build
+                    java Main
+                '''
             }
         }
     }
 
     post {
-        always {
-            echo 'Pipeline execution completed.'
-        }
         success {
-            echo 'Pipeline succeeded!'
+            echo 'Pipeline executed successfully!'
         }
+
         failure {
             echo 'Pipeline failed!'
         }
