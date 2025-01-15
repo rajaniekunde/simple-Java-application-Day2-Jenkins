@@ -14,7 +14,7 @@ pipeline {
                 echo 'Compiling the application...'
                 bat '''
                     if not exist build mkdir build
-                    for /r src\\main\\java %f in (*.java) do javac -d build %f
+                    for /r "src\\main\\java" %%f in (*.java) do javac -d build %%f
                 '''
             }
         }
