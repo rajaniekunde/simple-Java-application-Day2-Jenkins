@@ -5,14 +5,17 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 echo 'Cloning the repository...'
-                git 'https://github.com/rajaniekunde/simple-Java-application-Day2-Jenkins.git'
+                git branch: 'main', url: 'https://github.com/rajaniekunde/simple-Java-application-Day2-Jenkins.git'
             }
         }
 
         stage('Compile Application') {
             steps {
                 echo 'Compiling the application...'
-                sh 'javac App.java'
+                sh """
+                set -e
+                javac App.java
+                """
             }
         }
 
