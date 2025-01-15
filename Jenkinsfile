@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        AWS_SERVER_IP = '52.23.202.232'  // Your AWS public IP
-        SSH_KEY_PATH = '/path/to/newkey.pem'  // Path to your SSH key
-    }
-
     stages {
         stage('Clone Repository') {
             steps {
@@ -14,35 +9,19 @@ pipeline {
             }
         }
 
-        stage('Transfer Files to AWS') {
+        stage('Compile Application') {
             steps {
-                echo 'Transferring files to AWS...'
-                sh """
-                scp -i ${SSH_KEY_PATH} App.java ec2-user@${AWS_SERVER_IP}:/home/ec2-user/App.java
-                """
+                echo 'Compiling the application...'
+                sh 'javac App.java'
             }
         }
 
-        stage('Compile Application on AWS') {
+        stage('Run Application') {
             steps {
-                echo 'Compiling application on AWS...'
+                echo 'Running the application...'
                 sh """
-                ssh -i ${SSH_KEY_PATH} ec2-user@${AWS_SERVER_IP} << EOF
-                sudo yum install -y java-17-openjdk-devel
-                javac /home/ec2-user/App.java
-                EOF
-                """
-            }
-        }
-
-        stage('Run Application on AWS') {
-            steps {
-                echo 'Running application on AWS...'
-                sh """
-                ssh -i ${SSH_KEY_PATH} ec2-user@${AWS_SERVER_IP} << EOF
                 sudo pkill -f App || true
-                nohup java -cp /home/ec2-user App > /home/ec2-user/app.log 2>&1 &
-                EOF
+                nohup java App > app.log 2>&1 &
                 """
             }
         }
@@ -53,10 +32,10 @@ pipeline {
             echo 'Pipeline execution completed.'
         }
         success {
-            echo 'Deployment succeeded!'
+            echo 'Application deployed successfully and running on localhost:80!'
         }
         failure {
-            echo 'Deployment failed.'
+            echo 'Pipeline failed!'
         }
     }
 }
