@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        JAVA_HOME = 'C:\\Program Files\\Java\\jdk-11.0.11' // Adjust path as needed
+        JAVA_HOME = 'C:\\Program Files\\Java\\jdk-11.0.11' // Update as needed
         PATH = "${JAVA_HOME}\\bin;${env.PATH}"
     }
 
@@ -17,8 +17,8 @@ pipeline {
         stage('Compile Application') {
             steps {
                 echo 'Compiling the application...'
-                // Compile Java application using Windows command
-                bat 'javac -d build src\\main\\java\\*.java'
+                // Compile all .java files in the src directory recursively
+                bat 'javac -d build -sourcepath src src\\main\\java\\**\\*.java'
             }
         }
         
