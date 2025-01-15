@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        AWS_SERVER_IP = '<aws-server-ip>'
-        SSH_KEY_PATH = '/path/to/your/aws/key.pem'
+        AWS_SERVER_IP = '52.23.202.232'  // Your AWS public IP
+        SSH_KEY_PATH = '/path/to/newkey.pem'  // Path to your SSH key
     }
 
     stages {
