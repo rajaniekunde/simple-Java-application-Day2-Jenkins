@@ -1,27 +1,23 @@
-import com.sun.net.httpserver.HttpServer;
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpExchange;
+package com.example.demo;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.InetSocketAddress;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-public class App {
-    public static void main(String[] args) throws IOException {
-        // Create an HTTP server listening on port 80
-        HttpServer server = HttpServer.create(new InetSocketAddress(80), 0);
-        server.createContext("/", new HttpHandler() {
-            @Override
-            public void handle(HttpExchange exchange) throws IOException {
-                String response = "Welcome to GlobalLogic";
-                exchange.sendResponseHeaders(200, response.getBytes().length);
-                OutputStream os = exchange.getResponseBody();
-                os.write(response.getBytes());
-                os.close();
-            }
-        });
+@SpringBootApplication
+public class DemoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}
 
-        System.out.println("Server started on port 80...");
-        server.start();
+@RestController
+@RequestMapping("/api")
+class DemoController {
+    @GetMapping("/hello")
+    public String sayHello() {
+        return "Hello from GlobalLogic India!";
     }
 }
