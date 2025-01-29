@@ -14,7 +14,7 @@ pipeline {
         stage('Deploy Locally') {
             steps {
                 script {
-                    bat 'taskkill /F /IM java.exe || echo "No Java process running"'
+                    bat 'wmic process where "name like '%%java.exe' and not CommandLine like '%%jenkins%%'" call terminate || echo "No relevant Java process running"'
                     bat 'start /b java -jar target/*.jar > app.log 2>&1'
                 }
             }
