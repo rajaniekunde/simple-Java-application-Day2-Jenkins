@@ -3,7 +3,7 @@ package com.example.demo_webapp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication()
 public class DemoWebappApplication {
 
 	public static void main(String[] args) {
