@@ -19,7 +19,7 @@ pipeline {
                 script {
                     bat 'wmic process where "name like \'%%java.exe\' and not CommandLine like \'%%jenkins%%\'" call terminate || echo "No relevant Java process running"'
                     dir('demo-webapp') {  // Navigate to the correct directory
-                        bat 'start /b java -jar target/demo-webapp-0.0.1-SNAPSHOT.jar --server.port=8081 > app.log 2>&1'
+                        bat 'start /b javaw -jar target/demo-webapp-0.0.1-SNAPSHOT.jar --server.port=8081'
                     }
                 }
             }
